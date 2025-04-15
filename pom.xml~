@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.spe</groupId>
+    <groupId>com.nakulsiwach</groupId>
     <artifactId>HealthcareProject</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
