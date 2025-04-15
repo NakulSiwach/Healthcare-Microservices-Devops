@@ -1,4 +1,4 @@
-package com.nakulsiwach.doctorservice;
+package com.spe.doctorservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,5 @@ public class DoctorServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DoctorServiceApplication.class, args);
 	}
-//		System.out.println("hello");
+
 }
