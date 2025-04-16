@@ -12,11 +12,10 @@ server.port=8085
 #spring.jpa.properties.hibernate.show_sql=true
 
 # Eureka client configuration
-
 eureka.client.service-url.defaultZone=http://localhost:8761/eureka
 eureka.client.register-with-eureka=true
+  # Register this service with Eureka
 eureka.client.fetch-registry=true
-
   # Fetch the registry from Eureka to discover other services
 
 #eureka.instance.hostname=localhost
