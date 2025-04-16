@@ -39,6 +39,8 @@
         <module>PatientService</module>
         <module>NotificationService</module>
         <module>AppointmentService</module>
+        <module>ApiGateway</module>
+        <module>ServiceRegistry</module>
     </modules>
 
     <dependencies>

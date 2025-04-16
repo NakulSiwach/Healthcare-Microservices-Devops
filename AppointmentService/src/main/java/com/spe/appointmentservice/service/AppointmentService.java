@@ -1,13 +1,18 @@
 package com.spe.appointmentservice.service;
 
 import com.spe.appointmentservice.dto.AppointmentDTO;
+import com.spe.appointmentservice.dto.AppointmentMessage;
 import com.spe.appointmentservice.model.Appointment;
 import com.spe.appointmentservice.model.AppointmentStatus;
 import com.spe.appointmentservice.repository.AppointmentRepo;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.spe.appointmentservice.config.RabbitMQConfig.EXCHANGE;
+import static com.spe.appointmentservice.config.RabbitMQConfig.ROUTING_KEY;
 
 @Service
 public class AppointmentService {
@@ -21,20 +26,37 @@ public class AppointmentService {
     @Autowired
     private com.spe.appointmentservice.client.PatientClient patientClient;
 
-    public com.spe.appointmentservice.model.Appointment createAppointment(AppointmentDTO appointmentDTO) {
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    public Appointment createAppointment(AppointmentDTO appointmentDTO) {
         // Validate doctor and patient exist
         doctorClient.getDoctorById(appointmentDTO.getDoctorId());
         patientClient.getPatientById(appointmentDTO.getPatientId());
 
         // Create and save appointment
-        com.spe.appointmentservice.model.Appointment appointment = Appointment.builder()
+        Appointment appointment = Appointment.builder()
                 .doctorId(appointmentDTO.getDoctorId())
                 .patientId(appointmentDTO.getPatientId())
                 .appointmentDate(appointmentDTO.getAppointmentDate())
                 .status(AppointmentStatus.SCHEDULED)
                 .build();
 
-        return appointmentRepository.save(appointment);
+        Appointment savedAppointment = appointmentRepository.save(appointment);
+
+        // Send message to RabbitMQ
+        AppointmentMessage message = new AppointmentMessage(
+                savedAppointment.getId(),
+                savedAppointment.getPatientId(),
+                savedAppointment.getDoctorId(),
+                savedAppointment.getAppointmentDate(),
+                savedAppointment.getStatus().name()
+        );
+
+        rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, message);
+        System.out.println("✅ Sent appointment notification to RabbitMQ.");
+
+        return savedAppointment;
     }
 
     public List<Appointment> getAppointmentsByDoctorId(Long doctorId) {
