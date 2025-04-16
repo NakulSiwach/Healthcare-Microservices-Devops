@@ -1,0 +1,9 @@
+package com.spe.notificationservice.model;
+
+public class EmailRequest {
+    private String to;
+    private String subject;
+    private String body;
+
+    // Getters and Setters
+}
