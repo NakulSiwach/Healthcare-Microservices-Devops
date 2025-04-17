@@ -16,9 +16,17 @@ public class EmailService {
         email.setTo(toEmail);
         email.setSubject(subject);
         email.setText(message);
-        email.setFrom("your-email@gmail.com"); // Replace with your sender email
+        email.setFrom("nakulsiwach007work@gmail.com"); // Replace with your sender email
 
-        mailSender.send(email);
-        System.out.println("✅ Email sent to " + toEmail);
+        try {
+            mailSender.send(email);
+            System.out.println("✅ Email sent to " + toEmail);
+        } catch (Exception e) {
+            System.err.println("❌ Error sending email: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+//        mailSender.send(email);
+        System.out.println("✅ EEEEEEEEEEEEE" + toEmail);
     }
 }

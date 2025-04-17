@@ -1,5 +1,7 @@
 package com.spe.appointmentservice.service;
 
+import com.spe.appointmentservice.client.DoctorClient;
+import com.spe.appointmentservice.client.PatientClient;
 import com.spe.appointmentservice.dto.AppointmentDTO;
 import com.spe.appointmentservice.dto.AppointmentMessage;
 import com.spe.appointmentservice.model.Appointment;
@@ -21,10 +23,10 @@ public class AppointmentService {
     private AppointmentRepo appointmentRepository;
 
     @Autowired
-    private com.spe.appointmentservice.client.DoctorClient doctorClient;
+    private DoctorClient doctorClient;
 
     @Autowired
-    private com.spe.appointmentservice.client.PatientClient patientClient;
+    private PatientClient patientClient;
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -38,18 +40,17 @@ public class AppointmentService {
         Appointment appointment = Appointment.builder()
                 .doctorId(appointmentDTO.getDoctorId())
                 .patientId(appointmentDTO.getPatientId())
-                .appointmentDate(appointmentDTO.getAppointmentDate())
+//                .appointmentDate(appointmentDTO.getAppointmentDate())
                 .status(AppointmentStatus.SCHEDULED)
                 .build();
 
         Appointment savedAppointment = appointmentRepository.save(appointment);
 
-        // Send message to RabbitMQ
         AppointmentMessage message = new AppointmentMessage(
                 savedAppointment.getId(),
                 savedAppointment.getPatientId(),
                 savedAppointment.getDoctorId(),
-                savedAppointment.getAppointmentDate(),
+//                savedAppointment.getAppointmentDate(),
                 savedAppointment.getStatus().name()
         );
 
