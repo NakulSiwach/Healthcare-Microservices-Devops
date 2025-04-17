@@ -1,4 +1,0 @@
-package com.spe.appointmentservice.config;
-
-public class RabbitMQConfig {
-}
