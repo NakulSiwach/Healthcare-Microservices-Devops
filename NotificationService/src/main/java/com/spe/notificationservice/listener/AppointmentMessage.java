@@ -1,4 +1,4 @@
-package com.spe.appointmentservice.dto;
+package com.spe.notificationservice.listener;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

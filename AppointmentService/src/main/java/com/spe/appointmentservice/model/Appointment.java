@@ -20,7 +20,7 @@ public class Appointment {
     private Long doctorId; // Foreign key reference to Doctor microservice
     private Long patientId; // Foreign key reference to Patient microservice
 
-    private LocalDateTime appointmentDate; // Date and time of the appointment
+//    private LocalDateTime appointmentDate; // Date and time of the appointment
 
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status; // Status of the appointment (e.g., SCHEDULED, CANCELED, COMPLETED)
