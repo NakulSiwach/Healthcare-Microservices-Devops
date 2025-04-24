@@ -1,6 +1,7 @@
 package com.spe.notificationservice.listener;
 
 import com.spe.notificationservice.model.AppointmentStatus;
+
 import com.spe.notificationservice.service.EmailService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,23 @@ public class AppointmentListener {
         }
         emailService.sendEmail(to, subject, body);
 
+        String subject;
+        String body;
+        String to = "nakulsiwach007@gmail.com"; // Replace later with real user data
+
+        if (status == AppointmentStatus.SCHEDULED) {
+            subject = "Appointment Scheduled";
+            body = "Your appointment with doctor " + appointment.getDoctorId() +
+                    " is scheduled for "
+//                    + appointment.getAppointmentDate()
+            ;
+
+        } else {
+            subject = "Appointment Canceled";
+            body = "Your appointment with doctor " + appointment.getDoctorId() +
+                    " has been canceled.";
+        }
+
+        emailService.sendEmail(to, subject, body);
     }
 }
