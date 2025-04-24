@@ -1,0 +1,173 @@
+version: '3.8'
+
+services:
+  # Eureka Server (Service Registry)
+  eureka-server:
+    image: service-registry
+    container_name: eureka-serverCont
+    ports:
+      - "8761:8761"
+    networks:
+      - microservices
+    environment:
+      - eureka.instance.hostname=eureka-server  # Hostname for Eureka Server
+    # You can also add other environment variables needed for Eureka server here
+
+
+  # API Gateway (Microservice)
+  api-gateway:
+    image: api-gateway # Replace with your actual image
+    container_name: api-gatewayCont
+    ports:
+      - "8765:8765"
+    networks:
+      - microservices
+    depends_on:
+      - eureka-server  # Ensure Eureka is up before starting this service
+    environment:
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka  # Point to Eureka server
+
+  # RabbitMQ (for Notification Service)
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmqCont
+    ports:
+      - "15672:15672"  # RabbitMQ management console
+      - "5672:5672"    # RabbitMQ messaging
+    networks:
+      - microservices
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: patientdb
+      MYSQL_ROOT_PASSWORD: Nakul@12345
+      # Root password for MySQL
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    networks:
+      - microservices
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+  #    volumes:
+  #      - mysql-data:/var/lib/mysql
+  #      - # Persist MySQL data
+  #      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  # Patient Service (Microservice)
+  patient-service:
+    image: patient-service  # Replace with your actual image
+    container_name: patient-serviceCont
+    ports:
+      - "8081:8081"
+    networks:
+      - microservices
+    depends_on:
+      - eureka-server  # Ensure Eureka is up before starting this service
+      - api-gateway
+      - mysql
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/patientdb
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka
+
+#    environment:
+#      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka  # Point to Eureka server
+
+  # Doctor Service (Microservice)
+  doctor-service:
+    image: doctor-service # Replace with your actual image
+    container_name: doctor-serviceCont
+    ports:
+      - "8082:8082"
+    networks:
+      - microservices
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+    depends_on:
+      - eureka-server
+      - mysql
+      - api-gateway
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/doctordb
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka
+
+#    environment:
+#      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka  # Point to Eureka server
+
+  # Appointment Service (Microservice)
+  appointment-service:
+    image: appointment-service  # Replace with your actual image
+    container_name: appointment-serviceCont
+    ports:
+      - "8083:8083"
+    networks:
+      - microservices
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+    depends_on:
+      - mysql
+      - rabbitmq
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/appointmentdb
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka
+      - SPRING_RABBITMQ_HOST=rabbitmq  # Use the service name 'rabbitmq' as the hostname
+      - SPRING_RABBITMQ_PORT=5672
+#      mysql:
+#        condition: service_healthy
+#      - rabbitmq
+
+#    environment:
+#      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka  # Point to Eureka server
+#      - SPRING_RABBITMQ_HOST=rabbitmq  # Use the service name 'rabbitmq' as the hostname
+#      - SPRING_RABBITMQ_PORT=5672
+
+  # Notification Service (Microservice)
+  notification-service:
+    image: notification-service # Replace with your actual image
+    container_name: notification-serviceCont
+    ports:
+      - "8085:8085"
+    networks:
+      - microservices
+    depends_on:
+      - appointment-service
+
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq  # Use the service name 'rabbitmq' as the hostname
+      - SPRING_RABBITMQ_PORT=5672
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka
+  #    environment:
+#      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka  # Point to Eureka server
+
+
+
+
+
+
+
+networks:
+  microservices:
+    driver: bridge
+
+#volumes:
+#  mysql-data:  # Volume to persist MySQL data across container restarts
