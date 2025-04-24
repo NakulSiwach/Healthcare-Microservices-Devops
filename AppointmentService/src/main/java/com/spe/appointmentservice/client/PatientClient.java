@@ -1,7 +1,7 @@
 package com.spe.appointmentservice.client;
 
+import com.spe.appointmentservice.dto.PatientDTO;
 import  org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface PatientClient {
 
     @GetMapping("/api/patients/{id}")
-    Object getPatientById(@PathVariable Long id);
+    PatientDTO getPatientById(@PathVariable Long id);
 }

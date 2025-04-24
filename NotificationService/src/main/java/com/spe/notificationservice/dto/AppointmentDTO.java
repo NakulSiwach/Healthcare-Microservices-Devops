@@ -18,5 +18,6 @@ public class AppointmentDTO implements Serializable {
     private String doctorName;
     private String patientName;
     private String patientEmail;
+    private String doctorEmail;
 //    private String appointmentDate;
 }

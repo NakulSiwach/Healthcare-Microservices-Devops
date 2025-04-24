@@ -4,6 +4,8 @@ import com.spe.appointmentservice.client.DoctorClient;
 import com.spe.appointmentservice.client.PatientClient;
 import com.spe.appointmentservice.dto.AppointmentDTO;
 import com.spe.appointmentservice.dto.AppointmentMessage;
+import com.spe.appointmentservice.dto.DoctorDTO;
+import com.spe.appointmentservice.dto.PatientDTO;
 import com.spe.appointmentservice.model.Appointment;
 import com.spe.appointmentservice.model.AppointmentStatus;
 import com.spe.appointmentservice.repository.AppointmentRepo;
@@ -36,6 +38,10 @@ public class AppointmentService {
         doctorClient.getDoctorById(appointmentDTO.getDoctorId());
         patientClient.getPatientById(appointmentDTO.getPatientId());
 
+        DoctorDTO doctor = doctorClient.getDoctorById(appointmentDTO.getDoctorId());
+        PatientDTO patient = patientClient.getPatientById(appointmentDTO.getPatientId());
+
+
         // Create and save appointment
         Appointment appointment = Appointment.builder()
                 .doctorId(appointmentDTO.getDoctorId())
@@ -51,8 +57,15 @@ public class AppointmentService {
                 savedAppointment.getPatientId(),
                 savedAppointment.getDoctorId(),
 //                savedAppointment.getAppointmentDate(),
-                savedAppointment.getStatus().name()
+                savedAppointment.getStatus().name(),
+                patient.getEmail(),
+                doctor.getEmail(),
+                doctor.getName(),
+                patient.getName()
         );
+
+        System.out.print(message.getDoctorEmail());
+        System.out.print(message.getDoctorEmail());
 
         rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, message);
         System.out.println("✅ Sent appointment notification to RabbitMQ.");
