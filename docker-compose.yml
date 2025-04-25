@@ -3,7 +3,7 @@ version: '3.8'
 services:
   # Eureka Server (Service Registry)
   eureka-server:
-    image: service-registry
+    image: nakulsiwach/service-registry:v1
     container_name: eureka-serverCont
     ports:
       - "8761:8761"
@@ -16,7 +16,7 @@ services:
 
   # API Gateway (Microservice)
   api-gateway:
-    image: api-gateway # Replace with your actual image
+    image: nakulsiwach/api-gateway:v1 # Replace with your actual image
     container_name: api-gatewayCont
     ports:
       - "8765:8765"
@@ -65,7 +65,7 @@ services:
 
   # Patient Service (Microservice)
   patient-service:
-    image: patient-service  # Replace with your actual image
+    image: nakulsiwach/patient-service:v1 # Replace with your actual image
     container_name: patient-serviceCont
     ports:
       - "8081:8081"
@@ -89,7 +89,7 @@ services:
 
   # Doctor Service (Microservice)
   doctor-service:
-    image: doctor-service # Replace with your actual image
+    image: nakulsiwach/doctor-service:v1 # Replace with your actual image
     container_name: doctor-serviceCont
     ports:
       - "8082:8082"
@@ -108,12 +108,13 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/doctordb
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka
 
-#    environment:
+
+  #    environment:
 #      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka  # Point to Eureka server
 
   # Appointment Service (Microservice)
   appointment-service:
-    image: appointment-service  # Replace with your actual image
+    image: nakulsiwach/appointment-service:v1  # Replace with your actual image
     container_name: appointment-serviceCont
     ports:
       - "8083:8083"
@@ -143,7 +144,7 @@ services:
 
   # Notification Service (Microservice)
   notification-service:
-    image: notification-service # Replace with your actual image
+    image: nakulsiwach/notification-service:v1 # Replace with your actual image
     container_name: notification-serviceCont
     ports:
       - "8085:8085"
@@ -161,7 +162,41 @@ services:
 
 
 
-
+#  elasticsearch:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
+#    container_name: elasticsearch
+#    environment:
+#      - discovery.type=single-node
+#      - xpack.security.enabled=false
+#      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+#    ports:
+#      - "9200:9200"
+#    networks:
+#      - microservices
+#
+#  logstash:
+#    image: docker.elastic.co/logstash/logstash:8.13.0
+#    container_name: logstash
+#    volumes:
+#      - ./logstash/pipeline:/usr/share/logstash/pipeline
+#    ports:
+#      - "5000:5000"
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - microservices
+#
+#  kibana:
+#    image: docker.elastic.co/kibana/kibana:8.13.0
+#    container_name: kibana
+#    environment:
+#      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+#    ports:
+#      - "5601:5601"
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - microservices
 
 
 

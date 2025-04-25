@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: patient
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: patient
+  template:
+    metadata:
+      labels:
+        app: patient
+    spec:
+      containers:
+        - name: patient
+          image: nakulsiwach/patient-service:v1
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/patientdb
+            - name: eureka.client.service-url.defaultZone
+              value: http://eureka:8761/eureka
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: patient
+spec:
+  selector:
+    app: patient
+  ports:
+    - port: 8081

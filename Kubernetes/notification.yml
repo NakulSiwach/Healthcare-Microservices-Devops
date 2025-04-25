@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification
+  template:
+    metadata:
+      labels:
+        app: notification
+    spec:
+      containers:
+        - name: notification
+          image: nakulsiwach/notification-service:v1  # Replace with your actual image
+          ports:
+            - containerPort: 8085
+          env:
+            - name: SPRING_RABBITMQ_HOST
+              value: rabbitmq
+            - name: SPRING_RABBITMQ_PORT
+              value: "5672"
+            - name: eureka.client.service-url.defaultZone
+              value: http://eureka:8761/eureka
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification
+spec:
+  selector:
+    app: notification
+  ports:
+    - port: 8085
+      targetPort: 8085
+#  type: NodePort  # Or LoadBalancer if deploying to cloud
