@@ -31,7 +31,7 @@ public class AppointmentListener {
 //                    + appointment.getAppointmentDate()
             ;
         } else {
-            subject = "Appointment Canceled";
+            subject = "Appointment Cancelled";
             body ="Hi " + appointment.getPatientName() +", Your appointment with doctor :- " + appointment.getDoctorName() +
                     " has been canceled.";
         }
@@ -48,29 +48,11 @@ public class AppointmentListener {
             ;
 
         } else {
-            subject = "Appointment Canceled";
+            subject = "Appointment Cancelled";
             body = "Hi " + appointment.getDoctorName() + "Your appointment with patient :-" + appointment.getPatientName() +
-                    " has been canceled.";
+                    " has been cancelled.";
         }
         emailService.sendEmail(to, subject, body);
 
-        String subject;
-        String body;
-        String to = "nakulsiwach007@gmail.com"; // Replace later with real user data
-
-        if (status == AppointmentStatus.SCHEDULED) {
-            subject = "Appointment Scheduled";
-            body = "Your appointment with doctor " + appointment.getDoctorId() +
-                    " is scheduled for "
-//                    + appointment.getAppointmentDate()
-            ;
-
-        } else {
-            subject = "Appointment Canceled";
-            body = "Your appointment with doctor " + appointment.getDoctorId() +
-                    " has been canceled.";
-        }
-
-        emailService.sendEmail(to, subject, body);
     }
 }
