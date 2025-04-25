@@ -54,9 +54,10 @@ public class AppointmentListener {
         }
         emailService.sendEmail(to, subject, body);
 
-        String subject;
-        String body;
-        String to = "nakulsiwach007@gmail.com"; // Replace later with real user data
+//        String subject;
+//        String body;
+//        String to = "nakulsiwach007@gmail.com";
+        // Replace later with real user data
 
         if (status == AppointmentStatus.SCHEDULED) {
             subject = "Appointment Scheduled";

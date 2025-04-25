@@ -3,7 +3,9 @@ version: '3.8'
 services:
   # Eureka Server (Service Registry)
   eureka-server:
-    image: service-registry
+    build:
+      context: ./ServiceRegistry
+#    image: service-registry
     container_name: eureka-serverCont
     ports:
       - "8761:8761"
@@ -16,7 +18,9 @@ services:
 
   # API Gateway (Microservice)
   api-gateway:
-    image: api-gateway # Replace with your actual image
+    build:
+      context: ./ApiGateway
+#    image: api-gateway # Replace with your actual image
     container_name: api-gatewayCont
     ports:
       - "8765:8765"
@@ -44,10 +48,11 @@ services:
     image: mysql:5.7
     container_name: mysql
     environment:
-      MYSQL_DATABASE: patientdb
-      MYSQL_ROOT_PASSWORD: Nakul@12345
+#      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: 12345
       # Root password for MySQL
     volumes:
+      - mysql-data:/var/lib/mysql
       - ./init-db:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
@@ -65,7 +70,9 @@ services:
 
   # Patient Service (Microservice)
   patient-service:
-    image: patient-service  # Replace with your actual image
+    build:
+      context: ./PatientService
+#    image: patient-service  # Replace with your actual image
     container_name: patient-serviceCont
     ports:
       - "8081:8081"
@@ -89,7 +96,9 @@ services:
 
   # Doctor Service (Microservice)
   doctor-service:
-    image: doctor-service # Replace with your actual image
+    build:
+      context: ./DoctorService
+#    image: doctor-service # Replace with your actual image
     container_name: doctor-serviceCont
     ports:
       - "8082:8082"
@@ -113,7 +122,9 @@ services:
 
   # Appointment Service (Microservice)
   appointment-service:
-    image: appointment-service  # Replace with your actual image
+    build:
+      context: ./AppointmentService
+#    image: appointment-service  # Replace with your actual image
     container_name: appointment-serviceCont
     ports:
       - "8083:8083"
@@ -143,7 +154,9 @@ services:
 
   # Notification Service (Microservice)
   notification-service:
-    image: notification-service # Replace with your actual image
+    build:
+      context: ./NotificationService
+#    image: notification-service # Replace with your actual image
     container_name: notification-serviceCont
     ports:
       - "8085:8085"
@@ -169,5 +182,5 @@ networks:
   microservices:
     driver: bridge
 
-#volumes:
-#  mysql-data:  # Volume to persist MySQL data across container restarts
+volumes:
+  mysql-data:  # Volume to persist MySQL data across container restarts

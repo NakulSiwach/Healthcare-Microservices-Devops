@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+#  namespace: doctor-patient-appointment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: shivampadaliya/mysql:5.7
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "12345"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  #  namespace: doctor-patient-appointment # Use the namespace you created earlier
+  labels:
+    app: mysql
+spec:
+  selector:
+    app: mysql  # Match the labels in your Deployment
+  ports:
+    - port: 3306          # Port on the service
+      targetPort: 3306    # Port on the container
+  type: ClusterIP         # Change to NodePort or LoadBalancer as needed
