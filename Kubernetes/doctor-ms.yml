@@ -20,7 +20,8 @@ spec:
             - containerPort: 8082
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://mysql:3306/doctordb
+              value: jdbc:mysql://mysql:3306/doctordb?createDatabaseIfNotExist=true
+
 
 ---
 apiVersion: v1
@@ -36,4 +37,3 @@ spec:
   ports:
     - port: 8082          # Port on the service
       targetPort: 8082    # Port on the container
-  type: ClusterIP         # Change to NodePort or LoadBalancer as needed

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appointment-service
+#  namespace: doctor-patient-appointment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: appointment-service
+  template:
+    metadata:
+      labels:
+        app: appointment-service
+    spec:
+      containers:
+        - name: appointment-service
+          image: shivampadaliya/appointment-service:latest
+          ports:
+            - containerPort: 8083
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/appointmentdb?createDatabaseIfNotExist=true
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: appointment-service
+  #  namespace: doctor-patient-appointment # Use the namespace you created earlier
+  labels:
+    app: appointment-service
+spec:
+  selector:
+    app: appointment-service  # Match the labels in your Deployment
+  ports:
+    - port: 8083         # Port on the service
+      targetPort: 8083    # Port on the container
+  type: ClusterIP         # Change to NodePort or LoadBalancer as needed

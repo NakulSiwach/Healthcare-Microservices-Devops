@@ -34,6 +34,7 @@ spec:
   selector:
     app: mysql  # Match the labels in your Deployment
   ports:
-    - port: 3306          # Port on the service
+    - protocol: TCP
+      port: 3306          # Port on the service
       targetPort: 3306    # Port on the container
   type: ClusterIP         # Change to NodePort or LoadBalancer as needed
