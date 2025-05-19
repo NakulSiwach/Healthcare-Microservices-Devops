@@ -30,7 +30,7 @@ public class AppointmentController {
         return appointmentService.getAppointmentsByPatientId(patientId);
     }
 
-    @PutMapping("/{id}/cancel")
+    @DeleteMapping("/{id}/cancel")
     public String cancelAppointment(@PathVariable Long id) {
         appointmentService.cancelAppointment(id);
         return "Appointment canceled successfully!";
