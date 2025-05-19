@@ -19,13 +19,17 @@ spec:
             - containerPort: 8081
           env:
             - name: SPRING_APPLICATION_NAME
-              value: PATIENTSERVICE
+              value: patientservice
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://mysql:3306/patientdb
             - name: eureka.client.service-url.defaultZone
               value: http://eureka:8761/eureka
             - name: LOGGING_LOGSTASH_ENABLED
               value: "false"
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: patientservice
+            - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+              value: "true"
 
 ---
 apiVersion: v1

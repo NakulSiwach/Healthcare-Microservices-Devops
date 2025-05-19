@@ -18,10 +18,14 @@ spec:
           ports:
             - containerPort: 8082
           env:
-#            - name: SPRING_APPLICATION_NAME
-#              value: DOCTORSERVICE
+            - name: SPRING_APPLICATION_NAME
+              value: doctorservice
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://mysql:3306/doctordb
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: doctorservice
+            - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+              value: "true"
             - name: eureka.client.service-url.defaultZone
               value: http://eureka:8761/eureka
 ---
