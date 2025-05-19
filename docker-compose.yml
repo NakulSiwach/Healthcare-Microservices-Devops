@@ -44,7 +44,7 @@ services:
     image: mysql:5.7
     container_name: mysql
     environment:
-      MYSQL_DATABASE: patientdb
+#      MYSQL_DATABASE: patientdb
       MYSQL_ROOT_PASSWORD: Nakul@12345
       # Root password for MySQL
     volumes:

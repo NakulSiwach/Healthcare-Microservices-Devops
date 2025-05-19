@@ -35,7 +35,10 @@ spec:
     - name: amqp
       port: 5672
       targetPort: 5672
+      nodePort: 30072      # NodePort for AMQP (external access)
     - name: management
       port: 15672
       targetPort: 15672
-  type: NodePort  # Or LoadBalancer if you're on cloud
+      nodePort: 31672      # NodePort for Management UI (external access)
+  type: NodePort
+  # Or LoadBalancer if you're on cloud

@@ -1,34 +1,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: patient
+  name: patientservice
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: patient
+      app: patientservice
   template:
     metadata:
       labels:
-        app: patient
+        app: patientservice
     spec:
       containers:
-        - name: patient
-          image: nakulsiwach/patient-service:v1
+        - name: patientservice
+          image: nakulsiwach/patient-service:v2
           ports:
             - containerPort: 8081
           env:
+            - name: SPRING_APPLICATION_NAME
+              value: PATIENTSERVICE
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://mysql:3306/patientdb
             - name: eureka.client.service-url.defaultZone
               value: http://eureka:8761/eureka
+            - name: LOGGING_LOGSTASH_ENABLED
+              value: "false"
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: patient
+  name: patientservice
 spec:
+  type: ClusterIP  # internal only
   selector:
-    app: patient
+    app: patientservice
   ports:
     - port: 8081
+      targetPort: 8081

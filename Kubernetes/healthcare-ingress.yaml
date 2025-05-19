@@ -1,0 +1,50 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: healthcare-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+    - host: healthcare.local
+      http:
+        paths:
+          - path: /patient/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: patientservice
+                port:
+                  number: 8081
+
+          - path: /doctor/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: doctorservice
+                port:
+                  number: 8082
+
+          - path: /appointment/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: appointment
+                port:
+                  number: 8083
+
+          - path: /notification/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: notification
+                port:
+                  number: 8085
+
+          - path: /gateway/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway
+                port:
+                  number: 8765
