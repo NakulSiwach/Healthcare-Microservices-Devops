@@ -3,15 +3,10 @@ kind: ConfigMap
 metadata:
   name: mysql-init-scripts
 data:
-  init-db-patient.sql: |
-    CREATE DATABASE IF NOT EXISTS patientdb;
-    USE patientdb;
-    -- Your SQL schema for patientdb here...
-  init-db-doctor.sql: |
-    CREATE DATABASE IF NOT EXISTS doctordb;
-    USE doctordb;
-    -- Your SQL schema for doctordb here...
-  init-db-appointment.sql: |
-    CREATE DATABASE IF NOT EXISTS appointmentdb;
-    USE appointmentdb;
-    -- Your SQL schema for appointmentdb here...
+  init-all-dbs.sql: |
+    CREATE
+    DATABASE IF NOT EXISTS patientdb;
+      CREATE
+    DATABASE IF NOT EXISTS doctordb;
+      CREATE
+    DATABASE IF NOT EXISTS appointmentdb;

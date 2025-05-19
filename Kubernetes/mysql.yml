@@ -1,4 +1,4 @@
-
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,21 +18,21 @@ spec:
           image: mysql:5.7
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: Nakul@12345
+              value: Nakul@12345  # MySQL root password
           ports:
             - containerPort: 3306
           volumeMounts:
             - mountPath: /var/lib/mysql
-              name: mysql-storage
+              name: mysql-storage  # Mounting PersistentVolume for data persistence
             - mountPath: /docker-entrypoint-initdb.d
-              name: init-scripts
+              name: init-scripts  # Mounting ConfigMap for initial SQL scripts
       volumes:
         - name: mysql-storage
           persistentVolumeClaim:
-            claimName: mysql-pvc
+            claimName: mysql-pvc  # PVC from earlier
         - name: init-scripts
           configMap:
-            name: mysql-init-scripts
+            name: mysql-init-scripts  # ConfigMap from earlier
 
 ---
 apiVersion: v1
@@ -45,3 +45,28 @@ spec:
   ports:
     - port: 3306
       targetPort: 3306
+
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/data/mysql    # Minikube: folder inside the Minikube VM
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

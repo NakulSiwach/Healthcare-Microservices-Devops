@@ -1,23 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: doctor
+  name: doctorservice
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: doctor
+      app: doctorservice
   template:
     metadata:
       labels:
-        app: doctor
+        app: doctorservice
     spec:
       containers:
         - name: doctor
-          image: nakulsiwach/doctor-service:v1
+          image: nakulsiwach/doctor-service:v2
           ports:
             - containerPort: 8082
           env:
+#            - name: SPRING_APPLICATION_NAME
+#              value: DOCTORSERVICE
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://mysql:3306/doctordb
             - name: eureka.client.service-url.defaultZone
@@ -26,9 +28,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: doctor
+  name: doctorservice  # Change this to DOCTORSERVICE
+
 spec:
+  type: ClusterIP
   selector:
-    app: doctor
+    app: doctorservice
   ports:
     - port: 8082
+      targetPort: 8082
