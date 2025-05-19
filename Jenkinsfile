@@ -9,6 +9,7 @@ pipeline {
         DOCTOR_DOCKER_IMAGE = 'nakulsiwach/doctor-service'
         PATIENT_DOCKER_IMAGE = 'nakulsiwach/patient-service'
         APPOINTMENT_DOCKER_IMAGE = 'nakulsiwach/appointment-service'
+        NOTIFICATION_DOCKER_IMAGE = 'nakulsiwach/notification-service' // ✅ NEW
     }
 
     stages {
@@ -26,16 +27,7 @@ pipeline {
                     def doctorImage = docker.build("${DOCTOR_DOCKER_IMAGE}", './DoctorService/')
                     def patientImage = docker.build("${PATIENT_DOCKER_IMAGE}", './PatientService/')
                     def appointmentImage = docker.build("${APPOINTMENT_DOCKER_IMAGE}", './AppointmentService/')
-                }
-            }
-        }
-
-        stage('Scan Docker Images') {
-            steps {
-                script {
-                    sh "trivy image ${DOCTOR_DOCKER_IMAGE} || true"
-                    sh "trivy image ${PATIENT_DOCKER_IMAGE} || true"
-                    sh "trivy image ${APPOINTMENT_DOCKER_IMAGE} || true"
+                    def notificationImage = docker.build("${NOTIFICATION_DOCKER_IMAGE}", './NotificationService/') // ✅ NEW
                 }
             }
         }
@@ -47,6 +39,7 @@ pipeline {
                         docker.image("${DOCTOR_DOCKER_IMAGE}").push()
                         docker.image("${PATIENT_DOCKER_IMAGE}").push()
                         docker.image("${APPOINTMENT_DOCKER_IMAGE}").push()
+                        docker.image("${NOTIFICATION_DOCKER_IMAGE}").push() // ✅ NEW
                     }
                 }
             }
