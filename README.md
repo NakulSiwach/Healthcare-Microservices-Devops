@@ -47,6 +47,8 @@ This system covers everything from patient and doctor registration to appointmen
 - **NotificationService** listens to `appointment.notification.queue`.
 - Messages are routed via `appointment.exchange` with `appointment.email` routing key.
 - Upon receiving, an email is sent with JavaMailSender configured via OAuth2.
+- ![image](https://github.com/user-attachments/assets/c1282e44-330f-4746-a352-7ccf89afdcd4)
+
 
 ---
 
@@ -57,6 +59,8 @@ This system covers everything from patient and doctor registration to appointmen
 - `Ingress` routes for URL-based routing
 - `Secrets` and `ConfigMaps` for secure configuration
 - `RabbitMQ`, `MySQL`, and monitoring tools run in dedicated pods
+- ![image](https://github.com/user-attachments/assets/cfb623c0-3722-4f08-9efd-5bd5f5bd69f9)
+
 
 ---
 
@@ -65,9 +69,11 @@ This system covers everything from patient and doctor registration to appointmen
 ### 🔍 Prometheus + Grafana
 - Scrapes actuator metrics from each service
 - Tracks heap memory, thread count, HTTP response times, etc.
+- ![image](https://github.com/user-attachments/assets/26633292-bc28-472c-a0e6-2cd5e675b15d)
 
----
+- ![image](https://github.com/user-attachments/assets/480fd087-0d48-4765-b5e2-a6786d4f417a)
 
+![image](https://github.com/user-attachments/assets/e62809c1-1461-49a9-8ca1-5acc04d35ca5)
 
 ---
 
