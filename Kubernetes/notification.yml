@@ -18,6 +18,8 @@ spec:
           ports:
             - containerPort: 8085
           env:
+            - name: SPRING_APPLICATION_NAME
+              value: notificationservice
             - name: SPRING_RABBITMQ_HOST
               value: rabbitmq
             - name: SPRING_RABBITMQ_PORT

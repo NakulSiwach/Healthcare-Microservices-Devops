@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: patientservice
-          image: nakulsiwach/patient-service:v2
+          image: nakulsiwach/patient-service:v3
           ports:
             - containerPort: 8081
           env:
@@ -22,7 +22,7 @@ spec:
               value: patientservice
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://mysql:3306/patientdb
-            - name: eureka.client.service-url.defaultZone
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
               value: http://eureka:8761/eureka
             - name: LOGGING_LOGSTASH_ENABLED
               value: "false"
@@ -31,11 +31,28 @@ spec:
             - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
               value: "true"
 
+            # Actuator + Prometheus (✅ WORKS for Spring Boot 3+)
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "prometheus,health,info"
+            - name: MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED
+              value: "true"
+            - name: MANAGEMENT_ENDPOINTS_WEB_BASE_PATH
+              value: "/actuator"
+
+
+
+
+
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: patientservice
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/actuator/prometheus"
+    prometheus.io/port: "8081"
 spec:
   type: ClusterIP  # internal only
   selector:
