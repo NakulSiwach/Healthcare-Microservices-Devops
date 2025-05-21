@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: appointment
-          image: nakulsiwach/appointment-service:v3
+          image: nakulsiwach/appointment-service:v4
           ports:
             - containerPort: 8083
           env:
@@ -24,20 +24,29 @@ spec:
               value: jdbc:mysql://mysql:3306/appointmentdb
             - name: eureka.client.service-url.defaultZone
               value: http://eureka:8761/eureka
-#            - name: SPRING_RABBITMQ_HOST
-#              value: rabbitmq
-#            - name: SPRING_RABBITMQ_PORT
-#              value: "5672"
-#            - name: SPRING_RABBITMQ_USERNAME
-#              value: guest
-#            - name: SPRING_RABBITMQ_PASSWORD
-#              value: guest
+            - name: SPRING_RABBITMQ_HOST
+              value: rabbitmq
+#              value: rabbitmq-854fff949c-njjrp
+            - name: SPRING_RABBITMQ_PORT
+              value: "5672"
+            - name: SPRING_RABBITMQ_USERNAME
+              value: guest
+            - name: SPRING_RABBITMQ_PASSWORD
+              value: guest
+
+
+
+
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: appointment
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/actuator/prometheus"
+    prometheus.io/port: "8083"
 spec:
   type: ClusterIP  # 👈 Makes service externally accessible
   selector:

@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # Eureka Server (Service Registry)
   eureka-server:
     image: nakulsiwach/service-registry:v1
     container_name: eureka-serverCont
@@ -10,24 +9,20 @@ services:
     networks:
       - microservices
     environment:
-      - eureka.instance.hostname=eureka-server  # Hostname for Eureka Server
-    # You can also add other environment variables needed for Eureka server here
+      - eureka.instance.hostname=eureka-server
 
-
-  # API Gateway (Microservice)
   api-gateway:
-    image: nakulsiwach/api-gateway:v1 # Replace with your actual image
+    image: nakulsiwach/api-gateway:v1
     container_name: api-gatewayCont
     ports:
       - "8765:8765"
     networks:
       - microservices
     depends_on:
-      - eureka-server  # Ensure Eureka is up before starting this service
+      - eureka-server
     environment:
-      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka  # Point to Eureka server
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka
 
-  # RabbitMQ (for Notification Service)
   rabbitmq:
     image: rabbitmq:management
     container_name: rabbitmqCont
@@ -161,42 +156,6 @@ services:
 #      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka  # Point to Eureka server
 
 
-
-#  elasticsearch:
-#    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
-#    container_name: elasticsearch
-#    environment:
-#      - discovery.type=single-node
-#      - xpack.security.enabled=false
-#      - ES_JAVA_OPTS=-Xms512m -Xmx512m
-#    ports:
-#      - "9200:9200"
-#    networks:
-#      - microservices
-#
-#  logstash:
-#    image: docker.elastic.co/logstash/logstash:8.13.0
-#    container_name: logstash
-#    volumes:
-#      - ./logstash/pipeline:/usr/share/logstash/pipeline
-#    ports:
-#      - "5000:5000"
-#    depends_on:
-#      - elasticsearch
-#    networks:
-#      - microservices
-#
-#  kibana:
-#    image: docker.elastic.co/kibana/kibana:8.13.0
-#    container_name: kibana
-#    environment:
-#      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-#    ports:
-#      - "5601:5601"
-#    depends_on:
-#      - elasticsearch
-#    networks:
-#      - microservices
 
 
 
