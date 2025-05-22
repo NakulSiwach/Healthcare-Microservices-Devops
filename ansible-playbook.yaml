@@ -57,3 +57,13 @@
       environment:
         KUBECONFIG: /home/administrator/.kube/config
       command: kubectl apply -f {{ playbook_dir }}/Kubernetes/healthcare-ingress.yaml
+
+    - name: Apply Prometheus
+      environment:
+        KUBECONFIG: /home/administrator/.kube/config
+      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/prometheus.yml
+
+    - name: Apply Grafana
+      environment:
+        KUBECONFIG: /home/administrator/.kube/config
+      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/grafana.yml
