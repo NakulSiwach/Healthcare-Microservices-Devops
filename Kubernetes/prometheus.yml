@@ -11,7 +11,7 @@ data:
       - job_name: 'backend monitoring'
         metrics_path: '/actuator/prometheus'
         static_configs:
-          - targets: ['doctorservice:8082', 'patientservice:8081', 'appointment:8083']
+          - targets: ['doctorservice:8082', 'patientservice:8081', 'appointment:8083','notification:8085']
 
 ---
 
