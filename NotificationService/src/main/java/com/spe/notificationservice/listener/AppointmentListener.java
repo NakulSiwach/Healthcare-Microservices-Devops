@@ -22,18 +22,18 @@ public class AppointmentListener {
 
         String subject;
         String body;
-        String to = appointment.getPatientEmail(); // Replace later with real user data
+        String to = appointment.getPatientEmail();
 
         if (status == AppointmentStatus.SCHEDULED) {
             subject = "Appointment Scheduled";
             body = "Hi " + appointment.getPatientName() + ", Your appointment with doctor :- " + appointment.getDoctorName() +
-                    " , is scheduled for " + "date-time"
+                    " , is scheduled successfully ! ";
 //                    + appointment.getAppointmentDate()
             ;
         } else {
             subject = "Appointment Cancelled";
             body ="Hi " + appointment.getPatientName() +", Your appointment with doctor :- " + appointment.getDoctorName() +
-                    " has been canceled.";
+                    " has been cancelled.";
         }
         emailService.sendEmail(to, subject, body);
 

@@ -27,6 +27,6 @@ public class EmailService {
         }
 
 //        mailSender.send(email);
-        System.out.println("✅ EEEEEEEEEEEEE" + toEmail);
+        System.out.println("✅ EEEEEEEEEEEEEEEE" + toEmail);
     }
 }

@@ -82,9 +82,40 @@ public class AppointmentService {
     }
 
     public void cancelAppointment(Long id) {
+//        if (!appointmentRepository.existsById(id)) {
+//            throw new RuntimeException("Appointment not found");
+//        }
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
-        appointment.setStatus(AppointmentStatus.CANCELED);
-        appointmentRepository.save(appointment);
+
+        DoctorDTO doctor = doctorClient.getDoctorById(appointment.getDoctorId());
+        PatientDTO patient = patientClient.getPatientById(appointment.getPatientId());
+
+        // Step 3: Prepare cancellation message
+        AppointmentMessage message = new AppointmentMessage(
+                appointment.getId(),
+                appointment.getPatientId(),
+                appointment.getDoctorId(),
+//          appointment.getAppointmentDate(), // if used
+                AppointmentStatus.CANCELED.name(),
+                patient.getEmail(),
+                doctor.getEmail(),
+                doctor.getName(),
+                patient.getName()
+        );
+
+        // Step 4: Send cancellation notification
+        rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, message);
+        System.out.println("❌ Sent appointment cancellation notification to RabbitMQ.");
+
+        // Step 5: Delete the appointment from DB
+        appointmentRepository.delete(appointment);
+        System.out.println("🗑️ Appointment hard-deleted from DB.");
+
+        appointmentRepository.deleteById(id);
+//        Appointment appointment = appointmentRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+//        appointment.setStatus(AppointmentStatus.CANCELED);\
+//        appointmentRepository.save(appointment);
     }
 }
