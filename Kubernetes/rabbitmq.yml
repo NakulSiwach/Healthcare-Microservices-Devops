@@ -17,7 +17,7 @@ spec:
           image: rabbitmq:management
           ports:
             - containerPort: 5672   # Messaging port
-            - containerPort: 15672  # Management console
+            - containerPort: 15672  # Management console/ dashboardd
           env:
             - name: RABBITMQ_DEFAULT_USER
               value: guest
@@ -41,4 +41,3 @@ spec:
       targetPort: 15672
       nodePort: 31672      # NodePort for Management UI (external access)
   type: NodePort
-  # Or LoadBalancer if you're on cloud

@@ -14,12 +14,12 @@ spec:
     spec:
       containers:
         - name: doctor
-          image: nakulsiwach/doctor-service:v3
+          image: nakulsiwach/doctor-service:latest
           ports:
             - containerPort: 8082
           resources:
             requests:
-              cpu: "100m"    # ✅ Required for HPA to work
+              cpu: "100m"
             limits:
               cpu: "500m"
           env:

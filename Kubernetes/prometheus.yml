@@ -15,9 +15,6 @@ data:
 
 ---
 
-# ---------------------------------------
-# Prometheus Deployment
-# ---------------------------------------
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,9 +46,6 @@ spec:
 
 ---
 
-# ---------------------------------------
-# Prometheus Service
-# ---------------------------------------
 apiVersion: v1
 kind: Service
 metadata:

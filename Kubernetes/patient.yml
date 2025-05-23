@@ -15,12 +15,12 @@ spec:
     spec:
       containers:
         - name: patientservice
-          image: nakulsiwach/patient-service:v3
+          image: nakulsiwach/patient-service:latest
           ports:
             - containerPort: 8081
           resources:
             requests:
-              cpu: "100m"    # ✅ Required for HPA to work
+              cpu: "100m"
             limits:
               cpu: "500m"
           env:
@@ -37,7 +37,7 @@ spec:
             - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
               value: "true"
 
-            # Actuator + Prometheus (✅ WORKS for Spring Boot 3+)
+
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
               value: "prometheus,health,info"
             - name: MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED
@@ -60,7 +60,7 @@ metadata:
     prometheus.io/path: "/actuator/prometheus"
     prometheus.io/port: "8081"
 spec:
-  type: ClusterIP  # internal only
+  type: ClusterIP
   selector:
     app: patientservice
   ports:

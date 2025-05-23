@@ -14,12 +14,12 @@ spec:
     spec:
       containers:
         - name: appointment
-          image: nakulsiwach/appointment-service:v4
+          image: nakulsiwach/appointment-service:latest
           ports:
             - containerPort: 8083
           resources:
             requests:
-              cpu: "100m"    # ✅ Required for HPA to work
+              cpu: "100m"
             limits:
               cpu: "500m"
           env:
@@ -41,8 +41,6 @@ spec:
 
 
 
-
-
 ---
 apiVersion: v1
 kind: Service
@@ -53,7 +51,7 @@ metadata:
     prometheus.io/path: "/actuator/prometheus"
     prometheus.io/port: "8083"
 spec:
-  type: ClusterIP  # 👈 Makes service externally accessible
+  type: ClusterIP
   selector:
     app: appointment
   ports:

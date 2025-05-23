@@ -33,6 +33,6 @@ public class AppointmentController {
     @DeleteMapping("/cancel/{id}")
     public String cancelAppointment(@PathVariable Long id) {
         appointmentService.cancelAppointment(id);
-        return "Appointment canceled successfully!";
+        return "Appointment cancelled successfully!";
     }
 }
