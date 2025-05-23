@@ -2,3 +2,6 @@
   environment:
     KUBECONFIG: /home/administrator/.kube/config
   command: kubectl apply -f {{ playbook_dir }}/Kubernetes/patient.yml
+
+
+# testing upgrade
