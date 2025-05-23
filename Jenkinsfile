@@ -71,6 +71,7 @@ pipeline {
                         ansiblePlaybook(
                             playbook: 'ansible-playbook.yaml',
                             inventory: 'inventory'
+                            vaultCredentialsId: 'ansible_vault_pass'
                         )
                     }
                 }

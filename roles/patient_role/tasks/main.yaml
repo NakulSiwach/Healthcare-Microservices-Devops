@@ -1,6 +1,7 @@
 - name: Apply patient service
   environment:
-    KUBECONFIG: /home/administrator/.kube/config
+#    KUBECONFIG: /home/administrator/.kube/config
+  KUBECONFIG: "{{ kubeconfig_path}}"
   command: kubectl apply -f {{ playbook_dir }}/Kubernetes/patient.yml
 
 
