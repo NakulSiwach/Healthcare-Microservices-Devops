@@ -1,0 +1,4 @@
+- name: Apply appointment service
+  environment:
+    KUBECONFIG: /home/administrator/.kube/config
+  command: kubectl apply -f {{ playbook_dir }}/Kubernetes/appointment.yml

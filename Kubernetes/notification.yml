@@ -17,6 +17,11 @@ spec:
           image: nakulsiwach/notification-service:v2  # Replace with your actual image
           ports:
             - containerPort: 8085
+          resources:
+            requests:
+              cpu: "100m"    # ✅ Required for HPA to work
+            limits:
+              cpu: "500m"
           env:
             - name: SPRING_APPLICATION_NAME
               value: notificationservice
@@ -33,6 +38,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: notification
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/actuator/prometheus"
+    prometheus.io/port: "8085"
 spec:
   selector:
     app: notification

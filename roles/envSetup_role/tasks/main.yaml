@@ -1,0 +1,29 @@
+- name: Apply pvc
+  environment:
+    KUBECONFIG: /home/administrator/.kube/config
+  command: kubectl apply -f {{ playbook_dir }}/Kubernetes/pvc.yml
+
+- name: Apply mysql config
+  environment:
+    KUBECONFIG: /home/administrator/.kube/config
+  command: kubectl apply -f {{ playbook_dir }}/Kubernetes/mysql-config.yml
+
+- name: Apply mysql
+  environment:
+    KUBECONFIG: /home/administrator/.kube/config
+  command: kubectl apply -f {{ playbook_dir }}/Kubernetes/mysql.yml
+
+- name: Apply eureka
+  environment:
+    KUBECONFIG: /home/administrator/.kube/config
+  command: kubectl apply -f {{ playbook_dir }}/Kubernetes/eureka.yml
+
+- name: Apply gateway
+  environment:
+    KUBECONFIG: /home/administrator/.kube/config
+  command: kubectl apply -f {{ playbook_dir }}/Kubernetes/gateway.yml
+
+- name: Apply ingress
+  environment:
+    KUBECONFIG: /home/administrator/.kube/config
+  command: kubectl apply -f {{ playbook_dir }}/Kubernetes/healthcare-ingress.yaml

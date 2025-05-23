@@ -17,6 +17,11 @@ spec:
           image: nakulsiwach/doctor-service:v3
           ports:
             - containerPort: 8082
+          resources:
+            requests:
+              cpu: "100m"    # ✅ Required for HPA to work
+            limits:
+              cpu: "500m"
           env:
             - name: SPRING_APPLICATION_NAME
               value: doctorservice

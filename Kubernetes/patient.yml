@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: patientservice
 spec:
+
   replicas: 1
   selector:
     matchLabels:
@@ -17,6 +18,11 @@ spec:
           image: nakulsiwach/patient-service:v3
           ports:
             - containerPort: 8081
+          resources:
+            requests:
+              cpu: "100m"    # ✅ Required for HPA to work
+            limits:
+              cpu: "500m"
           env:
             - name: SPRING_APPLICATION_NAME
               value: patientservice

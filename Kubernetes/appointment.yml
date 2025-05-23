@@ -17,6 +17,11 @@ spec:
           image: nakulsiwach/appointment-service:v4
           ports:
             - containerPort: 8083
+          resources:
+            requests:
+              cpu: "100m"    # ✅ Required for HPA to work
+            limits:
+              cpu: "500m"
           env:
             - name: SPRING_APPLICATION_NAME
               value: appointmentservice
@@ -61,14 +66,14 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: doctorservice-hpa
+  name: appointment-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: doctorservice
+    name: appointment
   minReplicas: 1
-  maxReplicas: 5
+  maxReplicas: 2
   metrics:
     - type: Resource
       resource:

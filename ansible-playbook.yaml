@@ -1,69 +1,14 @@
 ---
-- name: Apply Kubernetes manifests from the Kubernetes folder
+- name: Apply Kubernetes manifests using Ansible roles
   hosts: localhost
   become: false
-  tasks:
-    - name: Apply pvc
-      environment:
-        KUBECONFIG: /home/administrator/.kube/config
-      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/pvc.yml
+  vars:
+    kubeconfig_path: /home/administrator/.kube/config
 
-    - name: Apply mysql config
-      environment:
-        KUBECONFIG: /home/administrator/.kube/config
-      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/mysql-config.yml
-
-    - name: Apply mysql
-      environment:
-        KUBECONFIG: /home/administrator/.kube/config
-      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/mysql.yml
-
-    - name: Apply eureka
-      environment:
-        KUBECONFIG: /home/administrator/.kube/config
-      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/eureka.yml
-
-    - name: Apply rabbitmq
-      environment:
-        KUBECONFIG: /home/administrator/.kube/config
-      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/rabbitmq.yml
-
-    - name: Apply patient service
-      environment:
-        KUBECONFIG: /home/administrator/.kube/config
-      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/patient.yml
-
-    - name: Apply doctor service
-      environment:
-        KUBECONFIG: /home/administrator/.kube/config
-      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/doctor.yml
-
-    - name: Apply appointment service
-      environment:
-        KUBECONFIG: /home/administrator/.kube/config
-      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/appointment.yml
-
-    - name: Apply notification service
-      environment:
-        KUBECONFIG: /home/administrator/.kube/config
-      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/notification.yml
-
-    - name: Apply gateway
-      environment:
-        KUBECONFIG: /home/administrator/.kube/config
-      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/gateway.yml
-
-    - name: Apply ingress
-      environment:
-        KUBECONFIG: /home/administrator/.kube/config
-      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/healthcare-ingress.yaml
-
-    - name: Apply Prometheus
-      environment:
-        KUBECONFIG: /home/administrator/.kube/config
-      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/prometheus.yml
-
-    - name: Apply Grafana
-      environment:
-        KUBECONFIG: /home/administrator/.kube/config
-      command: kubectl apply -f {{ playbook_dir }}/Kubernetes/grafana.yml
+  roles:
+    - role: envSetup_role
+    - role: patient_role
+    - role: doctor_role
+    - role: appointment_role
+    - role: notification_role
+    - role: monitoring_role
