@@ -15,6 +15,7 @@ spec:
       containers:
         - name: notification
           image: nakulsiwach/notification-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8085
           resources:
