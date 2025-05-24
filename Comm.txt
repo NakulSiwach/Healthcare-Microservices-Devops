@@ -1,0 +1,28 @@
+might forget these later
+
+
+minikube start
+minikube dashboard
+minikube addons enable ingress
+
+kubectl get hpa
+kubectl top pods
+kubectl apply -f
+kubectl rollout restart
+kubectl port-forward svc/rabbitmq 15672:15672
+kubectl port-forward svc/grafana 3000:3000
+kubectl port-forward svc/prometheus 9090:9090
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+kubectl exec -it <mysql-pod-name> -- bash
+
+ngrok http 8080
+
+ansible-vault encrypt secrets.yml
+ansible-galaxy init roles/patient
+
+http://192.168.49.2:30090/service-discovery
+http://localhost:9090/targets
+http://192.168.49.2:30061/
+http://localhost:15672/#/queues
+http://localhost:3000
+

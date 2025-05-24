@@ -26,12 +26,12 @@ public class AppointmentListener {
 
         if (status == AppointmentStatus.SCHEDULED) {
             subject = "Appointment Scheduled";
-            body = "Hi " + appointment.getPatientName() + ", Your appointment with doctor :- " + appointment.getDoctorName() +
+            body = "Hi !" + appointment.getPatientName() + ", Your appointment with doctor :- " + appointment.getDoctorName() +
                     " , is scheduled successfully ! ";
 //                    + appointment.getAppointmentDate()
         } else {
             subject = "Appointment Cancelled";
-            body ="Hi " + appointment.getPatientName() +", Your appointment with doctor :- " + appointment.getDoctorName() +
+            body ="Hi !" + appointment.getPatientName() +", Your appointment with doctor :- " + appointment.getDoctorName() +
                     " has been cancelled.";
         }
         emailService.sendEmail(to, subject, body);
@@ -41,14 +41,14 @@ public class AppointmentListener {
 
         if (status == AppointmentStatus.SCHEDULED) {
             subject = "Appointment Scheduled";
-            body = "Hi " + appointment.getDoctorName() +", Your appointment with patient :- " + appointment.getPatientName() +
+            body = "Hi !" + appointment.getDoctorName() +", Your appointment with patient :- " + appointment.getPatientName() +
                     " is scheduled successfully ! "
 //                    + appointment.getAppointmentDate()
             ;
 
         } else {
             subject = "Appointment Cancelled";
-            body = "Hi " + appointment.getDoctorName() + "Your appointment with patient :-" + appointment.getPatientName() +
+            body = "Hi !" + appointment.getDoctorName() + "Your appointment with patient :-" + appointment.getPatientName() +
                     " has been cancelled.";
         }
         emailService.sendEmail(to, subject, body);
